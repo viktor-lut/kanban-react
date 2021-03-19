@@ -7,6 +7,8 @@ import Column from "./Column";
 function App() {
 
   const [list, setList] = useState([])
+  const [flag, setFlag] = useState(true)
+
 
   useEffect(() => {
 
@@ -20,23 +22,42 @@ function App() {
       setList(res.data)
     }).catch(err => {
       console.log(err);
-      }
-    )
+      })
 
-      return () => {}
-    }, []);
+    }, [flag]);
+
 
   const onMoveRight = (id) => {
-
     let currtStatus = (list.find(el => el._id === id)).status;
-    // console.log('===== ' + currtStatus)
+    console.log('===== ' + flag)
     let nextStatus;
     if(currtStatus === 'todo') nextStatus = 'progress'
     if(currtStatus === 'progress') nextStatus = 'review'
     if(currtStatus === 'review') nextStatus = 'done'
 
-    const newList = list.map(el => el._id === id ? ({...el, status: nextStatus}) : el);
-    setList(newList);
+    // const newList = list.map(el => el._id === id ? ({...el, status: nextStatus}) : el);
+    // setList(newList);
+
+    let data = JSON.stringify({"status": nextStatus});
+    let config = {
+      method: 'patch',
+      url: 'https://nazarov-kanban-server.herokuapp.com/card/' + id,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const newFlaf = !flag
+        setFlag(newFlaf)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   const onMoveLeft = (id) => {
@@ -47,15 +68,51 @@ function App() {
     if(currtStatus === 'review') prevStatus = 'progress'
     if(currtStatus === 'done') prevStatus = 'review'
 
-    const newList = list.map(el => el._id === id ? ({...el, status: prevStatus}) : el);
-    setList(newList);
+    // const newList = list.map(el => el._id === id ? ({...el, status: prevStatus}) : el);
+    // setList(newList);
+
+    let data = JSON.stringify({"status": prevStatus});
+    let config = {
+      method: 'patch',
+      url: 'https://nazarov-kanban-server.herokuapp.com/card/' + id,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const newFlaf = !flag
+        setFlag(newFlaf)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   const Delete = (id) => {
+    // const newList = list.filter(el => el._id !== id);
+    // setList(newList);
+    let config = {
+      method: 'delete',
+      url: 'https://nazarov-kanban-server.herokuapp.com/card/' + id,
+      headers: {}
+    };
 
-    const newList = list.filter(el => el._id !== id);
-    setList(newList);
-    // updateLocalStorage(newList);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        const newFlaf = !flag
+        setFlag(newFlaf)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
   };
 
   return (

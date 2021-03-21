@@ -6,18 +6,15 @@ function Column(props) {
 
     <ul>
       {
-
         props.list
           .filter(el => el.status === props.status)
           .map(el =>
             <li className="element" key={el._id}>
-              {(props.status !== 'todo') && <button onClick={() => props.onMoveLeft(el._id)}>{'<'}</button>}
+              {(props.status !== 'todo') && <button onClick={() => props.onMoveCard(el._id, 'left')}>{'<'}</button>}
               {el.name}
-              {(props.status !== 'done') && <button onClick={() => props.onMoveRight(el._id)}>{'>'}</button>}
+              {(props.status !== 'done') && <button onClick={() => props.onMoveCard(el._id, 'right')}>{'>'}</button>}
               {(props.status === 'done') && <button onClick={() => props.Delete(el._id)}>X</button>}
             </li>)
-
-
       }
     </ul>
 

@@ -6,6 +6,8 @@ import Header from "./Header";
 import {AppBar, Box, Button, Card, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 
 import {makeStyles} from "@material-ui/core/styles";
+import EditCardForm from "./EditCardForm";
+import CreateCardForm from "./CreateCardForm";
 
 
 
@@ -60,6 +62,9 @@ function App() {
   const onMoveCard = (id, direction) => {
     let currtStatus = (list.find(el => el._id === id)).status;
     console.log(currtStatus);
+    console.log(id);
+    console.log(direction);
+
     let corrector = direction === 'right' ? +1 : -1;
     let nextStatus = statuses[statuses.indexOf(currtStatus) + corrector];
 
@@ -119,7 +124,7 @@ function App() {
       <br/>
       <div className={classes.mainContent}>
         <Container fixed>
-          <Typography variant="h2" align="center" color="textPrimary" gutterBottom> My kanban project</Typography>
+          <Typography variant="h2" align="center" color="textPrimary" gutterBottom> My kanban project</Typography><br/>
 
           {/*<div className="columns">*/}
           {/*  {statuses.map(el =>*/}
@@ -158,8 +163,10 @@ function App() {
         </Grid>
 
       </Container>
-
+      <CreateCardForm />
     </main>
+
+
   )
 }
 

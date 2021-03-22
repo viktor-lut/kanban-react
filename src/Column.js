@@ -1,4 +1,4 @@
-import {AppBar, Box, Button, Card, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {Card, CardActions, CardContent, IconButton, Typography} from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {makeStyles} from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
@@ -17,8 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 6,
     width: "95%",
     justifyContent: "space-between",
-    alignItems: "center"
-
+    alignItems: "center",
   }
 }))
 
@@ -31,11 +30,11 @@ function Column(props) {
     setAnchorEl(event.currentTarget);
   };
 
+
   const handleClose = () => {
+
     setAnchorEl(null);
   };
-
-
 
   return (
     <div className={classes.root}>
@@ -45,7 +44,6 @@ function Column(props) {
         color="inherit"
         gutterBottom
         align="center"
-
       >
         {props.status}
       </Typography>
@@ -55,31 +53,58 @@ function Column(props) {
         props.list
           .filter(el => el.status === props.status)
           .map(el => (
-            <Card className={classes.card} key={el._id}>
-              <Typography variant="body2" color="textSecondary" margin-left="10px">
-                {(props.status !== props.statuses[0]) &&
-                <button onClick={() => props.onMoveCard(el._id, 'left')}>⇽</button>}
-                {el.name}
-                {(props.status !== props.statuses[props.statuses.length - 1]) &&
-                <button onClick={() => props.onMoveCard(el._id, 'right')}>⇾</button>}
-                {(props.status === props.statuses[props.statuses.length - 1]) &&
-                <button onClick={() => props.Delete(el._id)}>✘</button>}
+            <Card
+              className={classes.card} key={el._id}>
+              <CardContent>
+                <Typography>
+                  {el.name}
+                </Typography>
+                <Typography variant="body2" color="textPrimary" margin-left="10px">
 
-              </Typography>
-              <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Menu
-              </Button>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
+                  {el.description}<br/>
+                  {(props.status !== props.statuses[0]) &&
+                  <button onClick={() => props.onMoveCard(el._id, 'left')}>⇽</button>}
+
+                  {(props.status !== props.statuses[props.statuses.length - 1]) &&
+                  <button onClick={() => props.onMoveCard(el._id, 'right')}>⇾</button>}
+                  {(props.status === props.statuses[props.statuses.length - 1]) &&
+                  <button onClick={() => props.Delete(el._id)}>✘</button>}
+
+                </Typography>
+              </CardContent>
+
+              <CardActions>
+
+                <IconButton
+                  aria-label="more"
+                  aria-controls="long-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                >
+                  <MoreVertIcon/>
+                </IconButton>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem>{el._id}</MenuItem>
+                  <MenuItem disabled={props.status === props.statuses[0]} onClick={() => {
+                    console.log(el._id);
+                    props.onMoveCard(el._id, 'left');
+                    handleClose();
+                  }}>⇽ Move Left </MenuItem>
+                  <MenuItem disabled={props.status === props.statuses[props.statuses.length - 1]} onClick={() => {
+                    props.onMoveCard(el._id, 'right');
+                    handleClose();
+                  }}>⇾ Move Right</MenuItem>
+                  <MenuItem disabled={props.status !== props.statuses[0]} onClick={handleClose}>✎ Edit</MenuItem>
+                  <MenuItem disabled={props.status !== props.statuses[props.statuses.length - 1]} onClick={handleClose}>✘
+                    Delete</MenuItem>
+                </Menu>
+              </CardActions>
             </Card>))
       }
 

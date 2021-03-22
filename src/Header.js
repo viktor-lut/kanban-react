@@ -52,7 +52,7 @@ function Header() {
             </IconButton>
             <Typography variant="h6" className={classes.title}>My kanban project</Typography>
             <Box mr={3}>
-              <Button color="inherit" variant="outlined">Log In</Button>
+              <Button color="inherit" variant="outlined">Create new task</Button>
             </Box>
             <Button color="secondary" variant="contained">Sign Up</Button>
           </Toolbar>

@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     left: 0,
     backgroundColor: "rgba(0,0,0,.3)"
+  },
+  card: {
+    display: "flex",
+    flexDirection: "column",
+    justifyItems: "center"
   }
 }))
 
@@ -137,7 +142,7 @@ function App() {
 
           {statuses.map(el =>
            ( <Grid item xs={12} sm={6} lg={3} >
-             <Card className={classes.cardMedia}>
+             <Card className={classes.card} >
              <Column key={statuses.indexOf(el)}
                     list={list}
                     status={el}

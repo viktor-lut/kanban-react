@@ -1,10 +1,11 @@
-import {Card, CardActions, CardContent, IconButton, Typography} from "@material-ui/core";
+import {Card, CardActions, CardContent, Divider, IconButton, Typography} from "@material-ui/core";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {makeStyles} from "@material-ui/core/styles";
+import {withStyles, makeStyles} from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {useState} from "react";
 import {Link} from "react-router-dom";
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,27 +20,34 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     justifyContent: "space-between",
     alignItems: "center",
-  }
+  },
+
 }))
 
+const LightTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 14,
+  },
+}))(Tooltip);
 
 //========================================================//
 
 function Column(props) {
   const classes = useStyles()
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-
   const handleClose = () => {
-
     setAnchorEl(null);
   };
 
+  //////////////////////////////////////
   return (
     <div className={classes.root}>
       <Typography
@@ -57,15 +65,17 @@ function Column(props) {
         props.list
           .filter(el => el.status === props.status)
           .map(el => (
+
             <Card
               className={classes.card} key={el._id}>
+              <LightTooltip title={`DESCRIPTION: ${el.description}`} >
               <CardContent>
                 <Typography>
                   {el.name}
                 </Typography>
+                <Divider />
                 <Typography variant="body2" color="textPrimary" margin-left="10px">
-
-                  {el.description}<br/>
+                  {/*{el.description}<br/>*/}
                   {(props.status !== props.statuses[0]) &&
                   <button onClick={() => props.onMoveCard(el._id, 'left')}>⇽</button>}
 
@@ -79,7 +89,7 @@ function Column(props) {
 
                 </Typography>
               </CardContent>
-
+              </LightTooltip>
               <CardActions>
 
                 <IconButton
@@ -113,6 +123,7 @@ function Column(props) {
                 </Menu>
               </CardActions>
             </Card>))
+
       }
 
     </div>

@@ -1,55 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {MenuItem} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import axios from "axios";
+import {Link} from "react-router-dom";
+import { withRouter } from 'react-router';
 
-const currencies = [
-  {
-    value: '1',
-    label: '1',
-  },
-  {
-    value: '2',
-    label: '2',
-  },
-  {
-    value: '3',
-    label: '3',
-  },
-  {
-    value: '4',
-    label: '4',
-  },
-  {
-    value: '5',
-    label: '5',
-  },
-];
-
-const currenciesS = [
-  {
-    value: 'todo',
-    label: 'todo',
-  },
-  {
-    value: 'progress',
-    label: 'progress',
-  },
-  {
-    value: 'review',
-    label: 'review',
-  },
-  {
-    value: 'done',
-    label: 'done',
-  }
-];
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -66,111 +27,193 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(2, 0, 1),
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
-export default function CreateCardForm() {
-  const classes = useStyles();
-  const [currency, setCurrency] = useState('1');
-  const [currencyS, setCurrencyS] = useState('');
+//===================================================
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-    setCurrencyS(event.target.value);
+function EditCardForm(props) {
+  const classes = useStyles();
+
+  const [card, setCard] = useState({
+    name: '',
+    description: '',
+    priority: '',
+    status: ''
+  });
+
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      url: `https://nazarov-kanban-server.herokuapp.com/card/${props.match.params.cardId}`
+    }).then(({ data }) => {
+      setCard(data);
+    });
+
+  }, [props.match.params.cardId]);
+
+  const onChange = e => {
+    const name = e.target.name;
+    let newCount;
+    switch(name) {
+      case "name":        newCount = {...card, name: e.target.value};
+        setCard(newCount);
+        break;
+      case "description": newCount = {...card, description: e.target.value};
+        setCard(newCount);
+        break;
+      case "priority":    newCount = {...card, priority: e.target.value};
+        setCard(newCount);
+        break;
+      case "status":      newCount = {...card, status: e.target.value};
+        setCard(newCount);
+        break;
+      default:
+        setCard("");
+        break;
+    }
   };
 
+
+  const updateTask = () =>{
+    axios.patch(`https://nazarov-kanban-server.herokuapp.com/card/${props.match.params.cardId}`,{
+        name: card.name,
+        description: card.description,
+        priority: card.priority,
+        status: card.status,
+      }
+    ).catch (error =>  console.log('error'))
+  };
+
+  ///////////////////////////////////////////
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Crete Card Form
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="Card Name"
-                autoFocus
-              />
+    <div>
+      {/*<Header />*/}
+      <br/>
+      <Container maxWidth="xs">
+        <CssBaseline/>
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Edit Task
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="name"
+                  value={card.name}
+                  name="name"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Card Name"
+                  autoFocus
+                  onChange={onChange}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  name="description"
+                  id="description"
+                  label="Description"
+                  multiline
+                  rows={4}
+                  value={card.description}
+                  variant="outlined"
+                  required
+                  fullWidth
+                  onChange={onChange}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Priority</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    name="priority"
+                    defaultValue="1"
+                    value={card.priority}
+                    onChange={onChange}
+                    label="Priority"
+
+                  >
+                    <MenuItem value={"1"}>1</MenuItem>
+                    <MenuItem value={"2"}>2</MenuItem>
+                    <MenuItem value={"3"}>3</MenuItem>
+                    <MenuItem value={"4"}>4</MenuItem>
+                    <MenuItem value={"5"}>5</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Status</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label"
+                    id="demo-simple-select-outlined"
+                    value={card.status}
+                    onChange={onChange}
+                    label="Status"
+                    name="status"
+                    defaultValue="todo"
+                  >
+                    {/*<MenuItem value="">*/}
+                    {/*  <em>None</em>*/}
+                    {/*</MenuItem>*/}
+                    <MenuItem value={'todo'}>Todo</MenuItem>
+                    <MenuItem value={'progress'}>Progress</MenuItem>
+                    <MenuItem value={'review'}>Review</MenuItem>
+                    <MenuItem value={'done'}>Done</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <div>
+                <Link to="/kanban">
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    // onClick={() => props.addToList(taskName, taskDescription, taskPriority, taskStatus)}
+                    onClick={updateTask}
+
+                  >
+                    Update task
+                  </Button>
+                </Link>
+
+
+                <Link to="/home">
+                  <Button
+                    type="cancel"
+                    fullWidth
+                    variant="contained"
+                    color="secondary"
+                    className={classes.cancel}
+                  >
+                    Cancel and exit
+                  </Button>
+                </Link>
+              </div>
             </Grid>
+          </form>
+        </div>
 
-            <Grid item xs={12}>
-
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Description"
-                name="description"
-                autoComplete="description"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-select-currency"
-                select
-                label="Select"
-                value={currency}
-                onChange={handleChange}
-                helperText="Please select priority of new task"
-                variant="outlined"
-              >
-                {currencies.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-
-            <Grid item xs={12}>
-              <TextField
-                id="outlined-select-currency"
-                select
-                label="Select"
-                value={currencyS}
-                onChange={handleChange}
-                helperText="Please select priority of new task"
-                variant="outlined"
-              >
-                {currenciesS.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-
-          </Grid>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Create new task
-          </Button>
-          <Button
-            type="cancel"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.cancel}
-          >
-            Cancel and exit
-          </Button>
-        </form>
-      </div>
-
-    </Container>
+      </Container>
+    </div>
   );
 }
+
+export default withRouter(EditCardForm);

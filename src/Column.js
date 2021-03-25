@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   }
 }))
+
+
+//========================================================//
 
 function Column(props) {
   const classes = useStyles()
@@ -67,6 +71,9 @@ function Column(props) {
 
                   {(props.status !== props.statuses[props.statuses.length - 1]) &&
                   <button onClick={() => props.onMoveCard(el._id, 'right')}>⇾</button>}
+                  <Link to= {`/edit/${el._id}`}>
+                    <button >✎</button>
+                  </Link>
                   {(props.status === props.statuses[props.statuses.length - 1]) &&
                   <button onClick={() => props.Delete(el._id)}>✘</button>}
 

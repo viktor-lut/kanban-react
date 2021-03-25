@@ -1,12 +1,17 @@
-import {AppBar, Box, Button, Container, Grid, IconButton, Toolbar, Typography} from "@material-ui/core";
-import Paper from '@material-ui/core/Paper';
+import {AppBar, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {makeStyles} from "@material-ui/core/styles";
 
 
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    '& > * + *': {
+      marginLeft: theme.spacing(2),
+      flexGrow: 1,
+
+    }
   },
   menuButton: {
     marginRight: theme.spacing(1)
@@ -40,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles()
 
+
   return (
 
     <>
@@ -51,10 +57,13 @@ function Header() {
               <MenuIcon/>
             </IconButton>
             <Typography variant="h6" className={classes.title}>My kanban project</Typography>
-            <Box mr={3}>
-              <Button color="inherit" variant="outlined">Create new task</Button>
-            </Box>
-            <Button color="secondary" variant="contained">Sign Up</Button>
+            {/*<Typography className={classes.root}>*/}
+            {/*  /!*<Link href="/home" color="inherit">Home</Link>*!/*/}
+            {/*  /!*<Link href="/kanban" color="inherit">Kanban</Link>*!/*/}
+            {/*  /!*<Link href="/create" color="inherit">Create new task</Link>*!/*/}
+
+            {/*</Typography>*/}
+
           </Toolbar>
         </Container>
       </AppBar>
@@ -93,9 +102,7 @@ function Header() {
 
         {/*</Paper>*/}
       {/*</main>*/}
-
-
-    </>
+</>
   )
 }
 

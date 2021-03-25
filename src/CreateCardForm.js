@@ -8,8 +8,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import axios from "axios";
-import {Link} from "react-router-dom";
-import { withRouter } from 'react-router';
+import {Link, useHistory} from "react-router-dom";
+import { withRouter} from 'react-router';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//====================================================
+
 function CreateCardForm(props) {
+  let history = useHistory();
   const classes = useStyles();
 
   const [taskName, setTaskName] = useState('');
@@ -67,6 +71,7 @@ function CreateCardForm(props) {
   };
 
   const addToList = () => {
+
     axios.post('https://nazarov-kanban-server.herokuapp.com/card', {
       _id: Math.random(),
       name: taskName,
@@ -77,7 +82,7 @@ function CreateCardForm(props) {
       // const newFlaf = !flag
       // setFlag(newFlaf)
       console.log(res.data);
-
+      history.push("/kanban")
     })
   };
 
@@ -169,6 +174,7 @@ function CreateCardForm(props) {
                 </FormControl>
               </Grid>
             <div>
+
               <Link to="/kanban">
                 <Button
                   type="submit"
@@ -184,8 +190,7 @@ function CreateCardForm(props) {
                 </Button>
                 </Link>
 
-
-                <Link to="/home">
+                <Link to="/kanban">
                   <Button
                     type="cancel"
                     fullWidth

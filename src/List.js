@@ -127,18 +127,19 @@ function List() {
   //////////////////////////////////////////////////
   return (
     <div>
-{/*      <Header/>*/}
-{/*<br/>*/}
-{/*<br/>*/}
-<br/>
-<br/>
+      {/*      <Header/>*/}
+      {/*<br/>*/}
+      {/*<br/>*/}
+      <br/>
+      <br/>
 
       <Container className={classes.cardGrid} fixed>
         <Grid container spacing={4}>
           {statuses.map(el =>
             (<Grid item xs={12} sm={6} lg={3}>
                 <Card className={classes.card}>
-                  <Column key={statuses.indexOf(el)}
+                  {/*<Column key={statuses.indexOf(el)}*/}
+                  <Column key={el._id}
                           list={list}
                           status={el}
                           onMoveCard={onMoveCard}
@@ -153,11 +154,11 @@ function List() {
           )}
         </Grid>
       </Container>
-    {/*  <div style={{display: "none"}}>*/}
-    {/*  <CreateCardForm*/}
-    {/*    addToList={addToList}*/}
-    {/*  />*/}
-    {/*</div>*/}
+      {/*  <div style={{display: "none"}}>*/}
+      {/*  <CreateCardForm*/}
+      {/*    addToList={addToList}*/}
+      {/*  />*/}
+      {/*</div>*/}
     </div>
   )
 }

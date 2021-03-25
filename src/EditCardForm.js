@@ -195,7 +195,7 @@ function EditCardForm(props) {
                 </Link>
 
 
-                <Link to="/home">
+                <Link to="/kanban">
                   <Button
                     type="cancel"
                     fullWidth

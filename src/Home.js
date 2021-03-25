@@ -6,25 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1
   },
-  menuButton: {
-    marginRight: theme.spacing(1)
-  },
-  title: {
-    flexGrow: 1
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: "rgba(0,0,0,.3)"
-  },
-  card: {
-    display: "flex",
-    flexDirection: "column",
-    justifyItems: "center"
-  }
+
 }))
 
 function Home() {
@@ -34,10 +16,7 @@ function Home() {
   return (
 
     <main>
-      {/*<Header/>*/}
 
-      {/*<br/>*/}
-      {/*<br/>*/}
       <br/>
       <br/>
 
@@ -47,9 +26,6 @@ function Home() {
             project</Typography><br/>
         </Container>
       </div>
-
-      <br/>
-      <br/>
 
     </main>
   )

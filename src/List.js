@@ -1,14 +1,29 @@
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
 import {useState} from "react";
 import Column from "./Column";
-import {Card, Container, Grid} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {Box, Card, Container, Grid} from "@material-ui/core";
+import {makeStyles, withStyles} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
+
+const ColorLinearProgress = withStyles({
+  colorPrimary: {
+    backgroundColor: '#b2dfdb',
+  },
+  barColorPrimary: {
+    backgroundColor: '#00695c',
+  },
+})(LinearProgress);
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    width: '100%',
+    height: "40px"
   },
   menuButton: {
     marginRight: theme.spacing(1)
@@ -27,21 +42,33 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     flexDirection: "column",
-    justifyItems: "center"
-  }
+    justifyItems: "center",
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  },
+  progress: {
+    margin: theme.spacing(2),
+    flexGrow: 1
+  },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }))
 
 //=============================================//
 
 function List() {
+
   const classes = useStyles()
 
   const [list, setList] = useState([])
   const [flag, setFlag] = useState(true)
   const statuses = ['todo', 'progress', 'review', 'done']
+  const [confirmDialog, setConfirmDiaqlog] = useState({isOpen: false, title: '', subTitle: ''})
+  const [isLoading, setIsloading] = useState(false)
 
   useEffect(() => {
-
+    setIsloading(true)
     console.log('GET ALL CARDS')
 
     axios({
@@ -53,6 +80,9 @@ function List() {
     }).catch(err => {
       console.log(err);
     })
+      .finally(() => {
+        setIsloading(false)
+      })
   }, [flag]);
 
 //===========================================================
@@ -67,6 +97,10 @@ function List() {
 
     // const newList = list.map(el => el._id === id ? ({...el, status: nextStatus}) : el);
     // setList(newList);
+    setConfirmDiaqlog({
+      ...confirmDialog,
+      isOpen: false
+    })
 
     let data = JSON.stringify({"status": nextStatus});
     let config = {
@@ -107,6 +141,10 @@ function List() {
   const Delete = (id) => {
     // const newList = list.filter(el => el._id !== id);
     // setList(newList);
+    setConfirmDiaqlog({
+      ...confirmDialog,
+      isOpen: false
+    })
     let config = {
       method: 'delete',
       url: 'https://nazarov-kanban-server.herokuapp.com/card/' + id,
@@ -116,35 +154,48 @@ function List() {
     axios(config)
       .then(function(response) {
         console.log(JSON.stringify(response.data));
-        const newFlaf = !flag
-        setFlag(newFlaf)
+        const newFlag = !flag
+        setFlag(newFlag)
       })
       .catch(function(error) {
         console.log(error);
       });
   };
 
+
   //////////////////////////////////////////////////
   return (
     <div>
-      {/*      <Header/>*/}
-      {/*<br/>*/}
-      {/*<br/>*/}
       <br/>
       <br/>
 
       <Container className={classes.cardGrid} fixed>
+        <CssBaseline />
         <Grid container spacing={4}>
+          {/*<Box   justifyContent="center" alignItems="center">*/}
+          {/*  { isLoading ?*/}
+          {/*    <CircularProgress className={classes.progress} /> : null}*/}
+          {/*</Box>*/}
+          <div className={classes.root}>
+              { isLoading ?
+                <ColorLinearProgress className={classes.margin} />   : null}
+
+          </div>
           {statuses.map(el =>
             (<Grid item xs={12} sm={6} lg={3}>
+
+
                 <Card className={classes.card}>
                   {/*<Column key={statuses.indexOf(el)}*/}
-                  <Column key={el._id}
+
+                  <Column key={el}
                           list={list}
                           status={el}
                           onMoveCard={onMoveCard}
                           Delete={Delete}
                           statuses={statuses}
+                          confirmDialog={confirmDialog}
+                          setConfirmDiaqlog={setConfirmDiaqlog}
 
                   />
                 </Card>
@@ -159,6 +210,11 @@ function List() {
       {/*    addToList={addToList}*/}
       {/*  />*/}
       {/*</div>*/}
+
+      {/*<ConfirmDialog*/}
+      {/*  confirmDialog={confirmDialog}*/}
+      {/*  setConfirmDialog={setConfirmDiaqlog}*/}
+      {/*/>*/}
     </div>
   )
 }

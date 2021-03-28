@@ -2,12 +2,11 @@ import React, {useEffect} from "react";
 import axios from "axios";
 import {useState} from "react";
 import Column from "./Column";
-import {Box, Card, Container, Grid} from "@material-ui/core";
+import {Card, Container, Grid} from "@material-ui/core";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Backdrop from '@material-ui/core/Backdrop';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import {v4 as uuidv4} from "uuid";
 
 
 const ColorLinearProgress = withStyles({
@@ -57,50 +56,49 @@ const useStyles = makeStyles((theme) => ({
 
 //=============================================//
 
-function List() {
+function List(props) {
 
   const classes = useStyles()
 
-  const [list, setList] = useState([])
+  // const [list, setList] = useState([])
   const [flag, setFlag] = useState(true)
   const statuses = ['todo', 'progress', 'review', 'done']
   const [confirmDialog, setConfirmDiaqlog] = useState({isOpen: false, title: '', subTitle: ''})
-  const [isLoading, setIsloading] = useState(false)
+  const [loader, setLoader] = useState(false)
+
+  // useEffect(() => {
+  //   setIsloading(true)
+  //   console.log('GET ALL CARDS')
+  //
+  //   axios({
+  //     metod: 'GET',
+  //     url: 'https://nazarov-kanban-server.herokuapp.com/card'
+  //   }).then(res => {
+  //     console.log(res.data)
+  //     setList(res.data)
+  //   }).catch(err => {
+  //     console.log(err);
+  //   })
+  //     .finally(() => {
+  //       setIsloading(false)
+  //     })
+  // }, [flag]);
+
 
   useEffect(() => {
-    setIsloading(true)
-    console.log('GET ALL CARDS')
+    setLoader(true)
+    props.getCards();
+    setLoader(props.isLoading)
+  }, [flag]);// eslint-disable-line react-hooks/exhaustive-deps
 
-    axios({
-      metod: 'GET',
-      url: 'https://nazarov-kanban-server.herokuapp.com/card'
-    }).then(res => {
-      console.log(res.data)
-      setList(res.data)
-    }).catch(err => {
-      console.log(err);
-    })
-      .finally(() => {
-        setIsloading(false)
-      })
-  }, [flag]);
 
 //===========================================================
   const onMoveCard = (id, direction) => {
-    let currtStatus = (list.find(el => el._id === id)).status;
-    console.log(currtStatus);
-    console.log(id);
-    console.log(direction);
-
+    let currtStatus = (props.list.find(el => el._id === id)).status;
     let corrector = direction === 'right' ? +1 : -1;
     let nextStatus = statuses[statuses.indexOf(currtStatus) + corrector];
 
     // const newList = list.map(el => el._id === id ? ({...el, status: nextStatus}) : el);
-    // setList(newList);
-    setConfirmDiaqlog({
-      ...confirmDialog,
-      isOpen: false
-    })
 
     let data = JSON.stringify({"status": nextStatus});
     let config = {
@@ -117,6 +115,7 @@ function List() {
         console.log(JSON.stringify(response.data));
         const newFlaf = !flag
         setFlag(newFlaf)
+        setLoader(false)
       })
       .catch(function(error) {
         console.log(error);
@@ -170,15 +169,15 @@ function List() {
       <br/>
 
       <Container className={classes.cardGrid} fixed>
-        <CssBaseline />
+        <CssBaseline/>
         <Grid container spacing={4}>
           {/*<Box   justifyContent="center" alignItems="center">*/}
           {/*  { isLoading ?*/}
           {/*    <CircularProgress className={classes.progress} /> : null}*/}
           {/*</Box>*/}
           <div className={classes.root}>
-              { isLoading ?
-                <ColorLinearProgress className={classes.margin} />   : null}
+            {loader ?
+              <ColorLinearProgress className={classes.margin}/> : null}
 
           </div>
           {statuses.map(el =>
@@ -188,8 +187,8 @@ function List() {
                 <Card className={classes.card}>
                   {/*<Column key={statuses.indexOf(el)}*/}
 
-                  <Column key={el}
-                          list={list}
+                  <Column key={uuidv4()}
+                          list={props.list}
                           status={el}
                           onMoveCard={onMoveCard}
                           Delete={Delete}

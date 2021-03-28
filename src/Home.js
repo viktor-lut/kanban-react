@@ -4,7 +4,8 @@ import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginTop: "50px"
   },
 
 }))
@@ -15,19 +16,16 @@ function Home() {
   //////////////////////////////////////////////////
   return (
 
-    <main>
+    <div >
 
-      <br/>
-      <br/>
-
-      <div className={classes.mainContent}>
+      <div className={classes.root}>
         <Container fixed>
           <Typography variant="h2" align="center" color="textPrimary" gutterBottom> My kanban
             project</Typography><br/>
         </Container>
       </div>
+</div>
 
-    </main>
   )
 }
 

@@ -8,9 +8,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Box, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 import axios from "axios";
-import {Link, useHistory} from "react-router-dom";
-import {withRouter} from 'react-router';
-import {createBrowserHistory} from "history";
+import {Link} from "react-router-dom";
+import {Redirect, withRouter} from 'react-router';
+
 
 
 
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "Gainsboro",
     borderRadius: 8,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    padding: '10px 10px 10px 10px',
+    padding: '20px 20px 20px 20px',
     backgroundColor: "white"
   }
 }));
@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 function CreateCardForm(props) {
 
   const classes = useStyles();
-  const customHistory = createBrowserHistory();
 
 
   const [taskName, setTaskName] = useState('');
@@ -63,27 +62,25 @@ function CreateCardForm(props) {
   const onChange = (e) => {
     const name = e.target.name;
     switch(name) {
-      case "name":
-        setTaskName(e.target.value);
+      case "name": setTaskName(e.target.value);
         break;
-      case "description":
-        setTaskDescription(e.target.value);
+      case "description": setTaskDescription(e.target.value);
         break;
-      case "priority":
-        setTaskPriority(e.target.value);
+      case "priority": setTaskPriority(e.target.value);
         break;
-      case "status":
-        setTaskStatus(e.target.value);
+      case "status": setTaskStatus(e.target.value);
         break;
-      default:
-        setTaskStatus(e.target.value);
+      default: setTaskStatus(e.target.value);
         break;
 
     }
   };
 
-  const addToList = () => {
+  // const goEct = () => {
+  //   return <Redirect to="/kanban"/>;
+  // }
 
+  const addToList = () => {
     axios.post('https://nazarov-kanban-server.herokuapp.com/card', {
       _id: Math.random(),
       name: taskName,
@@ -91,12 +88,20 @@ function CreateCardForm(props) {
       priority: taskPriority,
       status: taskStatus,
     }).then((res) => {
-      // const newFlaf = !flag
-      // setFlag(newFlaf)
       console.log(res.data);
-      customHistory.push("/kanban")
+      props.getCards();
+      console.log('Task is added');
+      // customHistory.push("/kanban")
+    }).catch((err) => {
+      console.log(err)
     })
   };
+
+  const [saveToggle, setSaveToggle] = useState(false)
+  const saveButtonHandler = () => {
+    setSaveToggle(true);
+    addToList();
+  }
 
   ///////////////////////////////////////////
   return (
@@ -189,19 +194,21 @@ function CreateCardForm(props) {
 
                 <Grid item xs={6}>
                   <div>
-                    <Link to="/kanban">
+                    {/*<Link to="/kanban">*/}
                       <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={saveButtonHandler}
                         // onClick={() => props.addToList(taskName, taskDescription, taskPriority, taskStatus)}
-                        onClick={addToList}
+                        // onClick={addToList}
                       >
                         Create new task
                       </Button>
-                    </Link>
+                    {saveToggle && <Redirect to="/kanban"/>}
+                    {/*</Link>*/}
 
                     <Link to="/kanban">
                       <Button

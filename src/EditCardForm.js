@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     borderColor: "Gainsboro",
     borderRadius: 8,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    padding: '6px 6px 6px 6px',
+    padding: '20px 20px 20px 20px',
     backgroundColor: "white"
   }
 }));
@@ -61,8 +61,10 @@ function EditCardForm(props) {
       method: 'GET',
       url: `https://nazarov-kanban-server.herokuapp.com/card/${props.match.params.cardId}`
     }).then(({data}) => {
-      setCard(data);
-    });
+      setCard(data)
+    }).catch((err) => {
+      console.log(err)
+    })
 
   }, [props.match.params.cardId]);
 
@@ -99,8 +101,13 @@ function EditCardForm(props) {
         description: card.description,
         priority: card.priority,
         status: card.status,
-      }
-    ).catch(error => console.log('error'))
+      }).then((res) => {
+      props.getCards();
+      console.log('Task is updated');
+      // customHistory.push("/kanban")
+    }).catch((error) => {
+      console.log(error)
+    })
   };
 
   ///////////////////////////////////////////
@@ -201,7 +208,6 @@ function EditCardForm(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        // onClick={() => props.addToList(taskName, taskDescription, taskPriority, taskStatus)}
                         onClick={updateTask}
                       >
                         Update task

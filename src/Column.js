@@ -58,21 +58,17 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(2),
     right: theme.spacing(3),
   },
+  cardac: {
+    marginTop: "2px",
+    marginBottom: "2px",
+    width: '60px'
+  }
 }))
 
 //========================================================//
 
 function Column(props) {
   const classes = useStyles()
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const sortCollumn = (a, b) => {
     return a.priority - b.priority;
@@ -107,56 +103,59 @@ function Column(props) {
       </Typography>
 
       {
-
         props.list
           .filter(el => el.status === props.status)
           .sort(sortCollumn)
           .map((el) => (
               <Card
                 className={classes.card} key={uuidv4()}>
-                <CardContent>
+                {/*<CardContent>*/}
                   <Typography className={classes.mainContent}>
                     {el.name}
                   </Typography>
                   <Divider/>
-                  <div style={{marginTop: 10}}>
+                {/*</CardContent>*/}
+
+                {/*<CardActions>*/}
+                  <div className={classes.cardac}>
                     {(props.status !== props.statuses[0]) &&
                     // <Button variant="outlined" size="small" color="primary" className={classes.margin}
                     //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
                     //         onClick={() => props.onMoveCard(el._id, 'left')}>⇽</Button>}
                     <Tooltip title="Move left">
-                    <IconButton aria-label="back" className={classes.margin}>
-                      <ArrowBackIcon fontSize="small"
-                                     onClick={() => props.onMoveCard(el._id, 'left')}
-                      />
-                    </IconButton>
+                      <IconButton aria-label="back" className={classes.margin}>
+                        <ArrowBackIcon fontSize="small"
+                                       onClick={() => props.onMoveCard(el._id, 'left')}
+                        />
+                      </IconButton>
                     </Tooltip>
-                      }
+                    }
 
                     {(props.status !== props.statuses[props.statuses.length - 1]) &&
                     // <Button variant="outlined" size="small" color="primary" className={classes.margin}
                     //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
                     //         onClick={() => props.onMoveCard(el._id, 'right')}>⇾</Button>}
                     <Tooltip title="Move right">
-                    <IconButton aria-label="forvar" className={classes.margin}>
-                      <ArrowForwardIcon fontSize="small"
-                                        onClick={() => props.onMoveCard(el._id, 'right')}
-                      />
-                    </IconButton>
+                      <IconButton aria-label="forvar" className={classes.margin}>
+                        <ArrowForwardIcon fontSize="small"
+                                          onClick={() => props.onMoveCard(el._id, 'right')}
+                        />
+                      </IconButton>
                     </Tooltip>
-                      }
+                    }
 
-                    <Tooltip title="View task">
-                    <IconButton aria-label="view" className={classes.margin}>
-                      <RemoveRedEyeIcon color="action" fontSize="small"
-                                        onClick={handleClickOpen}/>
-                    </IconButton>
-                    </Tooltip>
+                    {<Tooltip title="View task">
+                      <IconButton aria-label="view" className={classes.margin}>
+                        <RemoveRedEyeIcon color="action" fontSize="small"
+                                          onClick={handleClickOpen}/>
+                      </IconButton>
+                    </Tooltip>}
                     <Dialog
                       fullScreen={fullScreen}
                       open={open}
                       onClose={handleCloseD}
                       aria-labelledby="responsive-dialog-title"
+
                     >
                       <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK"}</DialogTitle>
                       <DialogContent>
@@ -180,39 +179,38 @@ function Column(props) {
                       </DialogActions>
                     </Dialog>
 
-
-                    <Link to={`/edit/${el._id}`}>
-                      {/*<Button variant="contained" size="small" color="primary" className={classes.margin}*/}
-                      {/*        style={{*/}
-                      {/*          maxWidth: '30px',*/}
-                      {/*          maxHeight: '30px',*/}
-                      {/*          minWidth: '30px',*/}
-                      {/*          minHeight: '30px'*/}
-                      {/*        }}>✎</Button>*/}
-                      <Tooltip title="Edit task">
+                  <Link to={`/edit/${el._id}`}>
+                    {/*<Button variant="contained" size="small" color="primary" className={classes.margin}*/}
+                    {/*        style={{*/}
+                    {/*          maxWidth: '30px',*/}
+                    {/*          maxHeight: '30px',*/}
+                    {/*          minWidth: '30px',*/}
+                    {/*          minHeight: '30px'*/}
+                    {/*        }}>✎</Button>*/}
+                    {<Tooltip title="Edit task">
                       <IconButton aria-label="edit" className={classes.margin}>
                         <EditIcon fontSize="small"/>
                       </IconButton>
-                      </Tooltip>
-                    </Link>
+                    </Tooltip>}
+                  </Link>
 
 
-                    {(props.status === props.statuses[props.statuses.length - 1]) &&
-                    // <Button variant="contained" size="small" color="secondary" className={classes.margin}
-                    //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
-                    //         onClick={() => {
-                    //           props.setConfirmDiaqlog({
-                    //             isOpen: true,
-                    //             title: 'Are you sure to delete this record?',
-                    //             subTitle: "You can't undo this operation",
-                    //             onConfirm: () => {
-                    //               props.Delete(el._id);
-                    //             }
-                    //           })
-                    //           // props.Delete(el._id)
-                    //         }}>✘</Button>}
+                  {(props.status === props.statuses[props.statuses.length - 1]) &&
+                  // <Button variant="contained" size="small" color="secondary" className={classes.margin}
+                  //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+                  //         onClick={() => {
+                  //           props.setConfirmDiaqlog({
+                  //             isOpen: true,
+                  //             title: 'Are you sure to delete this record?',
+                  //             subTitle: "You can't undo this operation",
+                  //             onConfirm: () => {
+                  //               props.Delete(el._id);
+                  //             }
+                  //           })
+                  //           // props.Delete(el._id)
+                  //         }}>✘</Button>}
 
-                    <Tooltip title="Delete task">
+                  <Tooltip title="Delete task">
                     <IconButton aria-label="delete" className={classes.margin}>
                       <DeleteIcon color="action" fontSize="small"
                                   onClick={() => {
@@ -228,55 +226,13 @@ function Column(props) {
                                   }}
                       />
                     </IconButton>
-                    </Tooltip>
-                    }
+                  </Tooltip>
+                  }
                   </div>
-                </CardContent>
 
-                <CardActions>
-                  <IconButton
-                    aria-label="display more actions" edge="end" color="inherit"
-                    onClick={handleClick}
-                  >
-                    <MoreVertIcon/>
-                  </IconButton>
-                  <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                  >
-                    {/*<MenuItem>{el._id}</MenuItem>*/}
-                    <MenuItem disabled={props.status === props.statuses[0]} onClick={() => {
-                      console.log(el._id);
-                      props.onMoveCard(el._id, 'left');
-                      handleClose();
-                    }}>⇽ Move Left </MenuItem>
-                    <MenuItem disabled={props.status === props.statuses[props.statuses.length - 1]} onClick={() => {
-                      props.onMoveCard(el._id, 'right');
-                      handleClose();
-                    }}>⇾ Move Right</MenuItem>
-                    <Link to={`/edit/${el._id}`}>
-                      <MenuItem onClick={handleClose}>✎ Edit</MenuItem>
-                    </Link>
-                    <MenuItem disabled={props.status !== props.statuses[props.statuses.length - 1]} onClick={() => {
-                      props.setConfirmDiaqlog({
-                        isOpen: true,
-                        title: 'Are you sure to delete ALL records?',
-                        subTitle: "You can't undo this operation",
-                        onConfirm: () => {
-                          props.Delete(el._id);
-                        }
-                      })
-                      // props.Delete(el._id);
-                      handleClose()
-                    }}>✘
-                      Delete</MenuItem>
-                  </Menu>
-                </CardActions>
+                {/*</CardActions>*/}
               </Card>
-              // </HtmlTooltip>
+
             )
           )
       }

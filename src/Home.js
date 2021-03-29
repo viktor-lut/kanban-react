@@ -19,10 +19,10 @@ function Home() {
     <div >
 
       <div className={classes.root}>
-        <Container fixed>
+        {/*<Container fixed>*/}
           <Typography variant="h2" align="center" color="textPrimary" gutterBottom> My kanban
             project</Typography><br/>
-        </Container>
+        {/*</Container>*/}
       </div>
 </div>
 

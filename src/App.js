@@ -5,7 +5,7 @@ import CreateCardForm from "./CreateCardForm";
 import EditCardForm from "./EditCardForm"
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from '@material-ui/core/styles';
-import {Box} from "@material-ui/core";
+import {AppBar, Box, Toolbar} from "@material-ui/core";
 import axios from "axios";
 import {useState} from "react";
 
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
 
     },
+    color: 'white',
   },
 }));
 
@@ -48,18 +49,24 @@ function App() {
   return (
 
         <Router >
-          <Box  height="40px" justifyContent="center" alignItems="center">
-            <nav style={{ backgroundColor: "#CECEF6", height: "100%"}}>
-              <Typography className={classes.root}>
-                  <Link to="/home">Home</Link>
+          <AppBar position="static">
+            <Toolbar>
+          {/*<Box  height="40px" justifyContent="center" alignItems="center">*/}
+
+            {/*<nav style={{ backgroundColor: "#CECEF6", height: "100%"}}>*/}
+              <Typography className={classes.root} >
+                  <Link to="/home" >Home</Link>
                   <Link to="/kanban">Kanban</Link>
                   <Link to="/create">Create new task</Link>
                 {/*<div style={{textAlign: "center"}}>*/}
                 {/*  <Link to="/edit">Edit</Link>*/}
                 {/*</div>*/}
               </Typography>
-            </nav>
-        </Box>
+            {/*</nav>*/}
+        {/*</Box>*/}
+          </Toolbar>
+        </AppBar>
+
             <Switch>
               <Route path="/home">
                 <Home/>

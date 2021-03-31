@@ -1,26 +1,19 @@
 import React from 'react';
 import {Card, CardActions, CardContent, Divider, IconButton, Typography} from "@material-ui/core";
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {withStyles, makeStyles} from "@material-ui/core/styles";
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
 import {useState} from "react";
 import {Link} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import ConfirmDialog from "./ConfirmDialog";
 import {v4 as uuidv4} from 'uuid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-// import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import {useTheme} from '@material-ui/core/styles';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
 import Dialogv from './Dialogv'
 

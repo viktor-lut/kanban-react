@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -6,23 +6,38 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/core/styles';
 import {Link} from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
+import axios from "axios";
+import Typography from "@material-ui/core/Typography";
 
 export default function Dialogv(props) {
-  // const [open, setOpen] = React.useState(false);
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const [card, setCard] = useState({
+    name: '',
+    description: '',
+    priority: '',
+    status: '',
+    _id: '',
+    createdAt: '',
+    updatedAt: ''
+  });
 
-  // const handleClickOpen = () => {
-  //   setOpen(props.open);
-  // };
-  //
-  // function handleClose() {
-  //   setOpen(false);
-  // }
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      url: `https://nazarov-kanban-server.herokuapp.com/card/${props.elId}`
+    }).then(({data}) => {
+      setCard(data)
+    }).catch((err) => {
+      console.log(err)
+    })
+
+  }, [props.elId]);
 
   return (
     <div>
@@ -35,12 +50,17 @@ export default function Dialogv(props) {
         onClose={props.handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK " + props.elId}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
-          </DialogContentText>
+              <DialogContentText>
+                <Typography variant="h5" color="inherit">{card.name}</Typography><br/>
+                <Typography color="inherit"><i><u>{card.description}</u></i></Typography><br/>
+                <b>{`Priority: `}</b> <i>{card.priority}</i><br/>
+                <b>{`Status: `}</b> <i>{card.status}</i><br/>
+                {/*<b>{`ID: `}</b> <i>{card._id}</i><br/>*/}
+                <b>{`Create data: `}</b> <i>{card.createdAt}</i><br/>
+                <b>{`Udate data: `}</b> <i>{card.updatedAt}</i>
+              </DialogContentText>
         </DialogContent>
         <DialogActions>
 
@@ -51,9 +71,9 @@ export default function Dialogv(props) {
               </Button>
             </Tooltip>}
           </Link>
-              <Button onClick={props.handleClose} color="primary" autoFocus>
-                Exit
-              </Button>
+          <Button onClick={props.handleClose} color="primary" autoFocus>
+            Exit
+          </Button>
 
 
           {/*<Button onClick={props.handleClose} color="primary">*/}

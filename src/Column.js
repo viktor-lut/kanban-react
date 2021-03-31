@@ -1,17 +1,15 @@
 import React from 'react';
-import {Card, CardActions, CardContent, Divider, IconButton, Typography} from "@material-ui/core";
+import {Card, Divider, IconButton, Typography} from "@material-ui/core";
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {withStyles, makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 // import Menu from '@material-ui/core/Menu';
 // import MenuItem from '@material-ui/core/MenuItem';
 import {useState} from "react";
-import {Link} from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
-// import Button from '@material-ui/core/Button';
+
 import ConfirmDialog from "./ConfirmDialog";
 import {v4 as uuidv4} from 'uuid';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
@@ -62,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '60px',
     display: "flex",
    justifyContent: "flex-end"
+
   }
 }))
 
@@ -104,7 +103,7 @@ function Column(props) {
 
       {
         props.list
-          .filter(el => el.status === props.status)
+          .filter(el => (el.status).replace(/\s+/g, '') === props.status)
           .sort(sortCollumn)
           .map((el) => (
               <Card

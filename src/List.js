@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-
     flexGrow: 1,
     alignItems: 'center',
   },
@@ -151,7 +150,7 @@ function List(props) {
 
           </div>
           {statuses.map(el =>
-            (<Grid item xs={12} sm={6} lg={3}>
+            (<Grid style={{padding: 8}} item xs={12} sm={6} lg={3}>
                 <Card className={classes.card}>
                   {/*<Column key={statuses.indexOf(el)}*/}
                   <Column key={uuidv4()}

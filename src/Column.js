@@ -19,7 +19,7 @@ import Dialogv from './Dialogv'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    padding: '14px 4px 10px 4px',
+    padding: '14px 4px 16px 4px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
     boxOrient: 'vertical',
     overflow: 'hidden',
     padding: "4px 4px 4px 4px",
-    maxWidth: 202,
-
+    // maxWidth: 202,
+    width: "70%"
   },
   fab: {
     margin: theme.spacing(2),
@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(3),
   },
   cardac: {
-    marginTop: "2px",
-    marginBottom: "2px",
+    marginTop: "10px",
+    marginBottom: "10px",
     maxWidth: '60px',
     display: "flex",
-   justifyContent: "flex-end"
+    justifyContent: "flex-end"
 
   }
 }))
@@ -98,7 +98,7 @@ function Column(props) {
         gutterBottom
         align="center"
       >
-        {props.status.[0].toUpperCase() + props.status.slice(1)}
+        {(props.status.[0]).toUpperCase() + props.status.slice(1)}
       </Typography>
 
       {
@@ -109,46 +109,46 @@ function Column(props) {
               <Card
                 className={classes.card} key={uuidv4()}>
                 {/*<CardContent>*/}
-                  <Typography className={classes.mainContent}>
-                    {el.name}
-                  </Typography>
-                  <Divider/>
+                <Typography className={classes.mainContent}>
+                  {el.name}
+                </Typography>
+                <Divider/>
                 {/*</CardContent>*/}
 
                 {/*<CardActions>*/}
-                  <div className={classes.cardac}>
-                    {(props.status !== props.statuses[0]) &&
-                    // <Button variant="outlined" size="small" color="primary" className={classes.margin}
-                    //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
-                    //         onClick={() => props.onMoveCard(el._id, 'left')}>⇽</Button>}
-                    <Tooltip title="Move left">
-                      <IconButton aria-label="back" className={classes.margin}>
-                        <ArrowBackIcon fontSize="small"
-                                       onClick={() => props.onMoveCard(el._id, 'left')}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                    }
+                <div className={classes.cardac}>
+                  {(props.status !== props.statuses[0]) &&
+                  // <Button variant="outlined" size="small" color="primary" className={classes.margin}
+                  //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+                  //         onClick={() => props.onMoveCard(el._id, 'left')}>⇽</Button>}
+                  <Tooltip title="Move left">
+                    <IconButton aria-label="back" className={classes.margin}>
+                      <ArrowBackIcon fontSize="small"
+                                     onClick={() => props.onMoveCard(el._id, 'left')}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  }
 
-                    {(props.status !== props.statuses[props.statuses.length - 1]) &&
-                    // <Button variant="outlined" size="small" color="primary" className={classes.margin}
-                    //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
-                    //         onClick={() => props.onMoveCard(el._id, 'right')}>⇾</Button>}
-                    <Tooltip title="Move right">
-                      <IconButton aria-label="forvar" className={classes.margin}>
-                        <ArrowForwardIcon fontSize="small"
-                                          onClick={() => props.onMoveCard(el._id, 'right')}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                    }
+                  {(props.status !== props.statuses[props.statuses.length - 1]) &&
+                  // <Button variant="outlined" size="small" color="primary" className={classes.margin}
+                  //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
+                  //         onClick={() => props.onMoveCard(el._id, 'right')}>⇾</Button>}
+                  <Tooltip title="Move right">
+                    <IconButton aria-label="forvar" className={classes.margin}>
+                      <ArrowForwardIcon fontSize="small"
+                                        onClick={() => props.onMoveCard(el._id, 'right')}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  }
 
-                    {<Tooltip title="View task">
-                      <IconButton aria-label="view" className={classes.margin}>
-                        <RemoveRedEyeIcon color="action" fontSize="small"
-                                          onClick={()=>handleClickOpen(el._id)}/>
-                      </IconButton>
-                    </Tooltip>}
+                  {<Tooltip title="View task">
+                    <IconButton aria-label="view" className={classes.margin}>
+                      <RemoveRedEyeIcon color="action" fontSize="small"
+                                        onClick={() => handleClickOpen(el._id)}/>
+                    </IconButton>
+                  </Tooltip>}
 
                   {(props.status === props.statuses[props.statuses.length - 1]) &&
                   <Tooltip title="Delete task">
@@ -169,7 +169,7 @@ function Column(props) {
                     </IconButton>
                   </Tooltip>
                   }
-                  </div>
+                </div>
 
                 {/*</CardActions>*/}
               </Card>

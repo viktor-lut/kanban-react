@@ -14,7 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Dialog from '@material-ui/core/Dialog';
+// import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -22,6 +22,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/core/styles';
 import RemoveRedEyeIcon from '@material-ui/icons/RemoveRedEye';
+import Dialogv from './Dialogv'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +50,8 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: 1,
     boxOrient: 'vertical',
     overflow: 'hidden',
+    padding: "4px 4px 4px 8px",
+    width: 210,
   },
   fab: {
     margin: theme.spacing(2),
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   cardac: {
     marginTop: "2px",
     marginBottom: "2px",
-    width: '60px'
+    maxWidth: '60px'
   }
 }))
 
@@ -75,15 +78,15 @@ function Column(props) {
   }
 
   //============dialog options========================
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [open, setOpen] = useState(false);
+  const [elId, setElId] = useState('');
 
-  function handleClickOpen() {
+  const handleClickOpen = (eid) => {
     setOpen(true);
-  }
+    setElId(eid)
+  };
 
-  function handleCloseD() {
+  function handleClose() {
     setOpen(false);
   }
 
@@ -147,37 +150,37 @@ function Column(props) {
                     {<Tooltip title="View task">
                       <IconButton aria-label="view" className={classes.margin}>
                         <RemoveRedEyeIcon color="action" fontSize="small"
-                                          onClick={handleClickOpen}/>
+                                          onClick={()=>handleClickOpen(el._id)}/>
                       </IconButton>
                     </Tooltip>}
-                    <Dialog
-                      fullScreen={fullScreen}
-                      open={open}
-                      onClose={handleCloseD}
-                      aria-labelledby="responsive-dialog-title"
+                    {/*<Dialog*/}
+                    {/*  fullScreen={fullScreen}*/}
+                    {/*  open={open}*/}
+                    {/*  onClose={handleCloseD}*/}
+                    {/*  aria-labelledby="responsive-dialog-title"*/}
 
-                    >
-                      <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK"}</DialogTitle>
-                      <DialogContent>
-                        <DialogContentText>
-                          <Typography variant="h5" color="inherit">{el.name}</Typography><br/>
-                          <Typography color="inherit"><i><u>{el.description}</u></i></Typography><br/>
-                          <b>{`Priority: `}</b> <i>{el.priority}</i><br/>
-                          <b>{`Status: `}</b> <i>{el.status}</i><br/>
-                          {/*<b>{`ID: `}</b> <i>{el._id}</i><br/>*/}
-                          <b>{`Create data: `}</b> <i>{el.createdAt}</i><br/>
-                          <b>{`Udate data: `}</b> <i>{el.updatedAt}</i>
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        {/*<Button onClick={handleCloseD} color="primary">*/}
-                        {/*  Disagree*/}
-                        {/*</Button>*/}
-                        <Button onClick={handleCloseD} color="primary" autoFocus>
-                          Exit
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+                    {/*>*/}
+                    {/*  <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK"}</DialogTitle>*/}
+                    {/*  <DialogContent>*/}
+                    {/*    <DialogContentText>*/}
+                    {/*      <Typography variant="h5" color="inherit">{el.name}</Typography><br/>*/}
+                    {/*      <Typography color="inherit"><i><u>{el.description}</u></i></Typography><br/>*/}
+                    {/*      <b>{`Priority: `}</b> <i>{el.priority}</i><br/>*/}
+                    {/*      <b>{`Status: `}</b> <i>{el.status}</i><br/>*/}
+                    {/*      /!*<b>{`ID: `}</b> <i>{el._id}</i><br/>*!/*/}
+                    {/*      <b>{`Create data: `}</b> <i>{el.createdAt}</i><br/>*/}
+                    {/*      <b>{`Udate data: `}</b> <i>{el.updatedAt}</i>*/}
+                    {/*    </DialogContentText>*/}
+                    {/*  </DialogContent>*/}
+                    {/*  <DialogActions>*/}
+                    {/*    /!*<Button onClick={handleCloseD} color="primary">*!/*/}
+                    {/*    /!*  Disagree*!/*/}
+                    {/*    /!*</Button>*!/*/}
+                    {/*    <Button onClick={handleCloseD} color="primary" autoFocus>*/}
+                    {/*      Exit*/}
+                    {/*    </Button>*/}
+                    {/*  </DialogActions>*/}
+                    {/*</Dialog>*/}
 
                   <Link to={`/edit/${el._id}`}>
                     {/*<Button variant="contained" size="small" color="primary" className={classes.margin}*/}
@@ -239,6 +242,12 @@ function Column(props) {
       <ConfirmDialog
         confirmDialog={props.confirmDialog}
         setConfirmDialog={props.setConfirmDiaqlog}
+      />
+      <Dialogv
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        open={open}
+        elId={elId}
       />
     </div>
 

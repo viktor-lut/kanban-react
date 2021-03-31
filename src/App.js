@@ -51,9 +51,7 @@ function App() {
         <Router >
           <AppBar position="static">
             <Toolbar>
-          {/*<Box  height="40px" justifyContent="center" alignItems="center">*/}
 
-            {/*<nav style={{ backgroundColor: "#CECEF6", height: "100%"}}>*/}
               <Typography className={classes.root} >
                   <Link to="/home" >Home</Link>
                   <Link to="/kanban">Kanban</Link>
@@ -62,8 +60,7 @@ function App() {
                 {/*  <Link to="/edit">Edit</Link>*/}
                 {/*</div>*/}
               </Typography>
-            {/*</nav>*/}
-        {/*</Box>*/}
+
           </Toolbar>
         </AppBar>
 

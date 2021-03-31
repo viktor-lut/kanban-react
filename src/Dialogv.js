@@ -50,7 +50,7 @@ export default function Dialogv(props) {
         onClose={props.handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK " + props.elId}</DialogTitle>
+        <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK "}</DialogTitle>
         <DialogContent>
               <DialogContentText>
                 <Typography variant="h5" color="inherit">{card.name}</Typography><br/>

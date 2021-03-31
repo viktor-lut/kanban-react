@@ -40,9 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     display: "flex",
-    flexDirection: "column",
-    justifyItems: "center",
+    justifyContent: "center",
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+
+    flexGrow: 1,
+    alignItems: 'center',
   },
   progress: {
     margin: theme.spacing(2),
@@ -65,24 +67,6 @@ function List(props) {
   const statuses = ['todo', 'progress', 'review', 'done']
   const [confirmDialog, setConfirmDiaqlog] = useState({isOpen: false, title: '', subTitle: ''})
   const [loader, setLoader] = useState(false)
-
-  // useEffect(() => {
-  //   setIsloading(true)
-  //   console.log('GET ALL CARDS')
-  //
-  //   axios({
-  //     metod: 'GET',
-  //     url: 'https://nazarov-kanban-server.herokuapp.com/card'
-  //   }).then(res => {
-  //     console.log(res.data)
-  //     setList(res.data)
-  //   }).catch(err => {
-  //     console.log(err);
-  //   })
-  //     .finally(() => {
-  //       setIsloading(false)
-  //     })
-  // }, [flag]);
 
 
   useEffect(() => {
@@ -121,20 +105,6 @@ function List(props) {
         console.log(error);
       });
   }
-//=======================================================
-//   const addToList = (taskName, taskDescription, taskPriority, taskStatus) => {
-//     axios.post('https://nazarov-kanban-server.herokuapp.com/card', {
-//       _id: Math.random(),
-//       name: taskName,
-//       description: taskDescription,
-//       priority: taskPriority,
-//       status: taskStatus,
-//     }).then((res) => {
-//       const newFlaf = !flag
-//       setFlag(newFlaf)
-//       console.log(res.data);
-//     })
-//   };
 
   //=======================================================
   const Delete = (id) => {
@@ -182,11 +152,8 @@ function List(props) {
           </div>
           {statuses.map(el =>
             (<Grid item xs={12} sm={6} lg={3}>
-
-
                 <Card className={classes.card}>
                   {/*<Column key={statuses.indexOf(el)}*/}
-
                   <Column key={uuidv4()}
                           list={props.list}
                           status={el}

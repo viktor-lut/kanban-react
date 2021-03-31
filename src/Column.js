@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     justifyContent: "space-between",
     alignItems: "center",
+    padding: 6
 
   },
   margin: {
@@ -43,8 +44,9 @@ const useStyles = makeStyles((theme) => ({
     lineClamp: 1,
     boxOrient: 'vertical',
     overflow: 'hidden',
-    padding: "4px 4px 4px 8px",
-    width: 210,
+    padding: "4px 4px 4px 4px",
+    maxWidth: 202,
+
   },
   fab: {
     margin: theme.spacing(2),
@@ -57,7 +59,9 @@ const useStyles = makeStyles((theme) => ({
   cardac: {
     marginTop: "2px",
     marginBottom: "2px",
-    maxWidth: '60px'
+    maxWidth: '60px',
+    display: "flex",
+   justifyContent: "flex-end"
   }
 }))
 
@@ -146,66 +150,8 @@ function Column(props) {
                                           onClick={()=>handleClickOpen(el._id)}/>
                       </IconButton>
                     </Tooltip>}
-                    {/*<Dialog*/}
-                    {/*  fullScreen={fullScreen}*/}
-                    {/*  open={open}*/}
-                    {/*  onClose={handleCloseD}*/}
-                    {/*  aria-labelledby="responsive-dialog-title"*/}
-
-                    {/*>*/}
-                    {/*  <DialogTitle id="responsive-dialog-title">{"INFORMATION OF TASK"}</DialogTitle>*/}
-                    {/*  <DialogContent>*/}
-                    {/*    <DialogContentText>*/}
-                    {/*      <Typography variant="h5" color="inherit">{el.name}</Typography><br/>*/}
-                    {/*      <Typography color="inherit"><i><u>{el.description}</u></i></Typography><br/>*/}
-                    {/*      <b>{`Priority: `}</b> <i>{el.priority}</i><br/>*/}
-                    {/*      <b>{`Status: `}</b> <i>{el.status}</i><br/>*/}
-                    {/*      /!*<b>{`ID: `}</b> <i>{el._id}</i><br/>*!/*/}
-                    {/*      <b>{`Create data: `}</b> <i>{el.createdAt}</i><br/>*/}
-                    {/*      <b>{`Udate data: `}</b> <i>{el.updatedAt}</i>*/}
-                    {/*    </DialogContentText>*/}
-                    {/*  </DialogContent>*/}
-                    {/*  <DialogActions>*/}
-                    {/*    /!*<Button onClick={handleCloseD} color="primary">*!/*/}
-                    {/*    /!*  Disagree*!/*/}
-                    {/*    /!*</Button>*!/*/}
-                    {/*    <Button onClick={handleCloseD} color="primary" autoFocus>*/}
-                    {/*      Exit*/}
-                    {/*    </Button>*/}
-                    {/*  </DialogActions>*/}
-                    {/*</Dialog>*/}
-
-                  <Link to={`/edit/${el._id}`}>
-                    {/*<Button variant="contained" size="small" color="primary" className={classes.margin}*/}
-                    {/*        style={{*/}
-                    {/*          maxWidth: '30px',*/}
-                    {/*          maxHeight: '30px',*/}
-                    {/*          minWidth: '30px',*/}
-                    {/*          minHeight: '30px'*/}
-                    {/*        }}>✎</Button>*/}
-                    {<Tooltip title="Edit task">
-                      <IconButton aria-label="edit" className={classes.margin}>
-                        <EditIcon fontSize="small"/>
-                      </IconButton>
-                    </Tooltip>}
-                  </Link>
-
 
                   {(props.status === props.statuses[props.statuses.length - 1]) &&
-                  // <Button variant="contained" size="small" color="secondary" className={classes.margin}
-                  //         style={{maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}}
-                  //         onClick={() => {
-                  //           props.setConfirmDiaqlog({
-                  //             isOpen: true,
-                  //             title: 'Are you sure to delete this record?',
-                  //             subTitle: "You can't undo this operation",
-                  //             onConfirm: () => {
-                  //               props.Delete(el._id);
-                  //             }
-                  //           })
-                  //           // props.Delete(el._id)
-                  //         }}>✘</Button>}
-
                   <Tooltip title="Delete task">
                     <IconButton aria-label="delete" className={classes.margin}>
                       <DeleteIcon color="action" fontSize="small"

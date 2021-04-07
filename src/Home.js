@@ -36,9 +36,8 @@ function Home() {
         {/*</Container>*/}
       </div>
 
-      <button onClick={handleClickOpen}
-
-      > dialog
+      <button onClick={handleClickOpen}>
+        dialog
       </button>
       <Dialogv
         handleClickOpen={handleClickOpen}

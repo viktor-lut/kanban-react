@@ -2,12 +2,11 @@ import React, {useEffect} from "react";
 import axios from "axios";
 import {useState} from "react";
 import Column from "./Column";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import {v4 as uuidv4} from "uuid";
 import {Card, Container, Grid} from "@material-ui/core";
 import {makeStyles, withStyles} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import LinearProgress from '@material-ui/core/LinearProgress';
-import {v4 as uuidv4} from "uuid";
-
 
 const ColorLinearProgress = withStyles({
   colorPrimary: {

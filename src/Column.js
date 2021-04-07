@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+width: "100%"
   },
   card: {
     display: "flex",
@@ -38,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(-1),
   },
   mainContent: {
-    display: 'box',
-    lineClamp: 1,
-    boxOrient: 'vertical',
-    overflow: 'hidden',
     padding: "4px 4px 4px 4px",
     // maxWidth: 202,
-    width: "70%"
+    lineClamp: 1,
+    overflow: 'hidden',
+    width: "70%",
+    textOverflow: "ellipsis",
+    whiteSpace: 'nowrap',
   },
   fab: {
     margin: theme.spacing(2),
@@ -98,7 +99,7 @@ function Column(props) {
         gutterBottom
         align="center"
       >
-        {(props.status.[0]).toUpperCase() + props.status.slice(1)}
+        {(props.status[0]).toUpperCase() + props.status.slice(1)}
       </Typography>
 
       {
@@ -112,7 +113,7 @@ function Column(props) {
                 <Typography className={classes.mainContent}>
                   {el.name}
                 </Typography>
-                <Divider/>
+
                 {/*</CardContent>*/}
 
                 {/*<CardActions>*/}
